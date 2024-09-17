@@ -1,4 +1,9 @@
 
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using UserManagement.Modules;
+using UserManagement.Settings;
+
 namespace UserManagement
 {
     public class Program
@@ -8,7 +13,8 @@ namespace UserManagement
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddApplicationServices();
+            builder.Services.Configure<DBSettings>(builder.Configuration.GetSection("MongoDbSettings"));
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -22,7 +28,6 @@ namespace UserManagement
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
@@ -32,5 +37,6 @@ namespace UserManagement
 
             app.Run();
         }
+
     }
 }
